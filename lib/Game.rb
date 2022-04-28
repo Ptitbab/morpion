@@ -11,87 +11,48 @@ class Game
 
         player1_name = gets.chomp
 
-        player1 = Player.new(player1_name, "X")
+        @player1 = Player.new(player1_name, "X")
 
         puts "\n\nJoueur 2 comment t'appelles-tu?"
 
         player2_name = gets.chomp
 
-        player2 = Player.new(player2_name, "O")
+        @player2 = Player.new("#{player2_name}", "O")
+
+        puts "#{@player1.name} jouera avec les #{@player1.symbol}"
+        puts "#{@player2.name} jouera avec les #{@player2.symbol}"
+
+        @current_player = @player1
+
+        @my_board = Board.new
     end
 
-    
-end
-
-
-class Board
-    attr_accessor :board
-
-    def initialize
-        for i in 0..9 
-            Boardcase.new("i", " ")
-        end
+    def player_move
+        @current_player.choose_case(Boardcase.all)
     end
 
-    def display_board(all_cases)
-        puts "   A   B   C "
-        puts "1  #{all_cases[0].case_symbol} | #{all_cases[1].case_symbol} | #{all_cases[2].case_symbol} "
-        puts "  --- --- ---"
-        puts "2  #{all_cases[3].case_symbol} | #{all_cases[4].case_symbol} | #{all_cases[5].case_symbol} "
-        puts "  --- --- ---"
-        puts "3  #{all_cases[6].case_symbol} | #{all_cases[7].case_symbol} | #{all_cases[8].case_symbol} "
+    def display_board
+        @my_board.display_board(Boardcase.all)
     end
 
-    def move
-        puts "Choisis ta case: "
-        user_choice = gets.chomp
-        case user_choice
-        when "A1"
-            all_cases[0].case_symbol = current_player.symbol
-            #break
-        when "A2"
-            all_cases[3].case_symbol = current_player.symbol
-            #break
-        when "A3"
-            all_cases[6].case_symbol = current_player.symbol
-            #break
-        when "B1"
-            all_cases[1].case_symbol = current_player.symbol
-            #break
-        when "B2"
-            all_cases[4].case_symbol = current_player.symbol
-            #break
-        when "B3"
-            all_cases[7].case_symbol = current_player.symbol
-            #break
-        when "C1"
-            all_cases[2].case_symbol = current_player.symbol
-            #break
-        when "C2"
-            all_cases[5].case_symbol = current_player.symbol
-            #break
-        when "C3"
-            all_cases[8].case_symbol = current_player.symbol
-            #break
+    def switch_player
+        if @current_player == @player1
+            @current_player = @player2
         else
-            "Choisis parmi les cases."
+            @current_player = @player1
         end
     end
+
+    def victory
+        @my_board.check_victory(Boardcase.all)
+    end
+
+
 end
 
 
-class Boardcase
-    attr_accessor :case_name, :case_symbol
-    @@all_cases = []
-    
-   def initialize(case_number, case_symbol)
-        @case_number = case_number
-        @case_symbol = case_symbol
-        @@all_cases << self
-   end
 
-   def self.all
-        @@all_cases
-   end
-end
+
+
+
 
