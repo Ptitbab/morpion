@@ -9,18 +9,15 @@ require 'Game'
 require 'Player'
 require 'Show'
 
+loop do
+    @my_game = Game.new
 
-@my_game = Game.new
-
-loop do 
-    @my_game.display_board
-    @my_game.player_move
-    if @my_game.victory == true
-        puts "#{@current_player} a gagné!"
-        break
-    else
+    9.times do 
+        @my_game.display_board
+        @my_game.player_move
+        @my_game.victory
         @my_game.switch_player
     end
+    @my_game.display_board
 end
-
 

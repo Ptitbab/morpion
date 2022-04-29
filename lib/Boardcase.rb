@@ -1,4 +1,4 @@
-class Boardcase
+class BoardCase
     attr_accessor :case_coordinate, :case_content
     @@all_cases = []
     
